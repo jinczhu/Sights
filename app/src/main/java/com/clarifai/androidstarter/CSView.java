@@ -75,7 +75,10 @@ public class CSView extends SurfaceView implements SurfaceHolder.Callback {
             parameters.setPreviewSize(width, height);
             camera.setDisplayOrientation(180);
         }
-
+        if (parameters.getSupportedFocusModes().contains(                               //always autofocus if device has this mode
+                Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        }
         camera.setParameters(parameters);
         previewCamera();
     }
@@ -108,7 +111,7 @@ public class CSView extends SurfaceView implements SurfaceHolder.Callback {
         camera = null;
     }
 
-    public void capture(final Camera.PictureCallback bithandler){
+    public void capture(final Camera.PictureCallback bithandler) {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
