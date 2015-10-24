@@ -50,7 +50,8 @@ public class RecognitionActivity extends Activity {
 
     textView = (TextView) findViewById(R.id.text_view);
     selectButton = (Button) findViewById(R.id.select_button);
-    camera = getCameraInstance();
+    int CamId = findBackFacingCamera();
+    camera = getCameraInstance(CamId);
     camView = new CSView(this, camera);
     prev = (FrameLayout) findViewById(R.id.cam_view);
     prev.addView(camView);
@@ -63,10 +64,28 @@ public class RecognitionActivity extends Activity {
     });
   }
 
-  public static Camera getCameraInstance(){
+  private int findBackFacingCamera() {
+  int cameraId = 0;
+  boolean cameraBack;
+  // Search for the front facing camera
+  int numberOfCameras = Camera.getNumberOfCameras();
+  for (int i = 0; i < numberOfCameras; i++) {
+    Camera.CameraInfo info = new Camera.CameraInfo();
+    Camera.getCameraInfo(i, info);
+    if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+      cameraId = i;
+      cameraBack = true;
+      break;
+    }
+  }
+    return cameraId;
+  }
+
+  public static Camera getCameraInstance(int CamId){
+
     Camera c = null;
     try {
-      c = Camera.open(); // attempt to get a Camera instance
+      c = Camera.open(CamId); // attempt to get a Camera instance
     }
     catch (Exception e){
       // Camera is not available (in use or does not exist)
