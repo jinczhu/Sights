@@ -1,18 +1,18 @@
 package com.clarifai.androidstarter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.provider.MediaStore;
 
 import com.clarifai.api.ClarifaiClient;
 import com.clarifai.api.RecognitionRequest;
@@ -21,52 +21,84 @@ import com.clarifai.api.Tag;
 import com.clarifai.api.exception.ClarifaiException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import static android.provider.MediaStore.Images.Media;
-
-
-/**
- * A simple Activity that performs recognition using the Clarifai API.
- */
 public class RecognitionActivity extends Activity {
   private static final String TAG = RecognitionActivity.class.getSimpleName();
+  private static final String APP_ID = "fGtUHi8JOvqPrpgI1UDZisTBJ7qDOMo4XFCNHjGc";
+  private static final String APP_SECRET = "iyO7xtPq_htZnItjPCXoEkYR6tFCao5hwXHCf795";
 
-  // IMPORTANT NOTE: you should replace these keys with your own App ID and secret.
-  // These can be obtained at https://developer.clarifai.com/applications
-  private static final String APP_ID = "vM05qo55uhZard2dL4BixmMm4WsHIl6CsGCTgS_7";
-  private static final String APP_SECRET = "rx4oPPiXiCWNRVcoJ0huLz02cKiQUZtq5JPVrhjM";
-
-  private static final int CODE_PICK = 1;
+  private static final int MEDIA_TYPE_IMAGE = 1;
 
   private final ClarifaiClient client = new ClarifaiClient(APP_ID, APP_SECRET);
   private Button selectButton;
-  private ImageView imageView;
   private TextView textView;
+  private Camera camera;
+  private CSView camView;
+  private FrameLayout prev;
+
+  private Uri imguri;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_recognition);
-    imageView = (ImageView) findViewById(R.id.image_view);
+
     textView = (TextView) findViewById(R.id.text_view);
     selectButton = (Button) findViewById(R.id.select_button);
+    camera = getCameraInstance();
+    camView = new CSView(this, camera);
+    prev = (FrameLayout) findViewById(R.id.cam_view);
+    prev.addView(camView);
+
     selectButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        // Send an intent to launch the media picker.
-        final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CODE_PICK);
+        camView.capture(mCamera);
+
       }
     });
   }
 
-  @Override protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == CODE_PICK && resultCode == RESULT_OK) {
-      // The user picked an image. Send it to Clarifai for recognition.
-      Log.d(TAG, "User picked image: " + intent.getData());
-      Bitmap bitmap = loadBitmapFromUri(intent.getData());
+  public static Camera getCameraInstance(){
+    Camera c = null;
+    try {
+      c = Camera.open(); // attempt to get a Camera instance
+    }
+    catch (Exception e){
+      // Camera is not available (in use or does not exist)
+    }
+    return c; // returns null if camera is unavailable
+  }
+
+  private Camera.PictureCallback mCamera = new Camera.PictureCallback() {
+
+    @Override
+    public void onPictureTaken(byte[] data, Camera camera) {
+
+      File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+      imguri = Uri.fromFile(getOutputMediaFile(MEDIA_TYPE_IMAGE));
+      if (pictureFile == null){
+        Log.d(TAG, "Error creating media file, check storage permissions");
+        return;
+      }
+
+      try {
+        FileOutputStream fos = new FileOutputStream(pictureFile);
+        fos.write(data);
+        fos.close();
+      } catch (FileNotFoundException e) {
+        Log.d(TAG, "File not found: " + e.getMessage());
+      } catch (IOException e) {
+        Log.d(TAG, "Error accessing file: " + e.getMessage());
+      }
+
+      Log.d(TAG, "User picked image: " + imguri);
+      Bitmap bitmap = loadBitmapFromUri(imguri);
       if (bitmap != null) {
-        imageView.setImageBitmap(bitmap);
         textView.setText("Recognizing...");
         selectButton.setEnabled(false);
 
@@ -82,7 +114,38 @@ public class RecognitionActivity extends Activity {
       } else {
         textView.setText("Unable to load selected image.");
       }
+
     }
+  };
+
+  private static File getOutputMediaFile(int type){
+    File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES), "Sights");
+
+    // Create the storage directory if it does not exist
+    if (! mediaStorageDir.exists()){
+      if (! mediaStorageDir.mkdirs()){
+        Log.d("Sights", "failed to create directory");
+        return null;
+      }
+    }
+
+    // Create a media file name
+    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    File mediaFile;
+    if (type == MEDIA_TYPE_IMAGE){
+      mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+              "IMG_"+ timeStamp + ".jpg");
+    } else {
+      return null;
+    }
+
+    return mediaFile;
+  }
+
+  /** Create a file Uri for saving an image or video */
+  private static Uri getOutputMediaFileUri(int type){
+    return Uri.fromFile(getOutputMediaFile(type));
   }
 
   /** Loads a Bitmap from a content URI returned by the media picker. */
@@ -94,8 +157,8 @@ public class RecognitionActivity extends Activity {
       opts.inJustDecodeBounds = true;
       BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, opts);
       int sampleSize = 1;
-      while (opts.outWidth / (2 * sampleSize) >= imageView.getWidth() &&
-             opts.outHeight / (2 * sampleSize) >= imageView.getHeight()) {
+      while (opts.outWidth / (2 * sampleSize) >= prev.getWidth() &&
+             opts.outHeight / (2 * sampleSize) >= prev.getHeight()) {
         sampleSize *= 2;
       }
 

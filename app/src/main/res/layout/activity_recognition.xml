@@ -6,10 +6,10 @@
               android:gravity="center"
               tools:context=".RecognitionActivity">
 
-  <ImageView
-      android:id="@+id/image_view"
+  <FrameLayout
+      android:id="@+id/cam_view"
       android:layout_width="match_parent"
-      android:layout_height="100dp"
+      android:layout_height="200dp"
       android:layout_weight="1"
       android:scaleType="centerCrop"
       android:contentDescription="@string/user_image"/>
