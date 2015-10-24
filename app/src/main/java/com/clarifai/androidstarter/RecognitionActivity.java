@@ -13,12 +13,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.speech.tts.TextToSpeech;
 
 import com.clarifai.api.ClarifaiClient;
 import com.clarifai.api.RecognitionRequest;
 import com.clarifai.api.RecognitionResult;
 import com.clarifai.api.Tag;
 import com.clarifai.api.exception.ClarifaiException;
+
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -27,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class RecognitionActivity extends Activity {
   private static final String TAG = RecognitionActivity.class.getSimpleName();
@@ -41,6 +45,9 @@ public class RecognitionActivity extends Activity {
   private Camera camera;
   private CSView camView;
   private FrameLayout prev;
+
+  private TextToSpeech txtspk;
+  private String txt;
 
   private Uri imguri;
 
@@ -57,9 +64,9 @@ public class RecognitionActivity extends Activity {
     prev.addView(camView);
 
     selectButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
+      @Override
+      public void onClick(View v) {
         camView.capture(mCamera);
-
       }
     });
   }
@@ -217,10 +224,24 @@ public class RecognitionActivity extends Activity {
       if (result.getStatusCode() == RecognitionResult.StatusCode.OK) {
         // Display the list of tags in the UI.
         StringBuilder b = new StringBuilder();
+        StringBuilder c = new StringBuilder();
+        int i = 0;
         for (Tag tag : result.getTags()) {
           b.append(b.length() > 0 ? ", " : "").append(tag.getName());
+          if(i<5) {
+            c.append(c.length() > 0 ? ", " : "").append(tag.getName());
+            i++;
+          }
         }
         textView.setText("Tags:\n" + b);
+        txt = c.toString();
+        txtspk = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+          @Override public void onInit(int status) {
+            txtspk.setLanguage(Locale.UK);
+            txtspk.speak(txt, TextToSpeech.QUEUE_FLUSH, null);
+          }
+        });
+
       } else {
         Log.e(TAG, "Clarifai: " + result.getStatusMessage());
         textView.setText("Sorry, there was an error recognizing your image.");

@@ -10,6 +10,10 @@ import android.hardware.Camera;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static android.content.Context.*;
 
 public class CSView extends SurfaceView implements SurfaceHolder.Callback {
@@ -33,6 +37,15 @@ public class CSView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         Camera.Parameters parameters = camera.getParameters();
+        List<Camera.Size> previewSizes = parameters.getSupportedPreviewSizes();
+        if(previewSizes.get(0).height<previewSizes.get(0).width){
+            width=previewSizes.get(0).height;
+            height=previewSizes.get(0).width;
+        }
+        else{
+            height=previewSizes.get(0).height;
+            width=previewSizes.get(0).width;
+        }
 
         Context mContext = getContext();
 
@@ -41,7 +54,6 @@ public class CSView extends SurfaceView implements SurfaceHolder.Callback {
         win = (WindowManager)mContext.getSystemService(wanted);
 
         Display display = win.getDefaultDisplay();
-
         if(display.getRotation() == Surface.ROTATION_0)
         {
             parameters.setPreviewSize(height, width);
@@ -92,11 +104,18 @@ public class CSView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void surfaceDestroyed(SurfaceHolder holder){
-        //camera.stopPreview();
-        //camera = null;
+        camera.stopPreview();
+        camera = null;
     }
 
-    public void capture(Camera.PictureCallback bithandler){
-        camera.takePicture(null, null, bithandler);
+    public void capture(final Camera.PictureCallback bithandler){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                camera.startPreview();
+                camera.takePicture(null, null, bithandler);
+            }
+        }, 0, 5000);
     }
 }
