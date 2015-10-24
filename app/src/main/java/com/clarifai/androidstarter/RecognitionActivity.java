@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.provider.MediaStore;
 
 import com.clarifai.api.ClarifaiClient;
 import com.clarifai.api.RecognitionRequest;
@@ -52,7 +53,7 @@ public class RecognitionActivity extends Activity {
     selectButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         // Send an intent to launch the media picker.
-        final Intent intent = new Intent(Intent.ACTION_PICK, Media.EXTERNAL_CONTENT_URI);
+        final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CODE_PICK);
       }
     });
