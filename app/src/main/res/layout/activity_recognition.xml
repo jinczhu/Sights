@@ -4,15 +4,8 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center"
+              android:background="#0A1429"
               tools:context=".RecognitionActivity">
-
-  <!-- <FrameLayout
-      android:id="@+id/cam_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_weight="1"
-      android:scaleType="centerCrop"
-      android:contentDescription="@string/user_image" /> -->
 
   <TextView
       android:id="@+id/welcome_view"

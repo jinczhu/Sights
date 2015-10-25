@@ -35,7 +35,9 @@ public class RecognitionActivity extends Activity {
     selectButtonT.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        //INSERT ACTION HERE
+        selectButtonT.setBackgroundColor(Color.BLUE);
+        Intent trainerScreen = new Intent(getApplicationContext(), TrainerActivity.class);
+        startActivity(trainerScreen);
       }
     });
   }

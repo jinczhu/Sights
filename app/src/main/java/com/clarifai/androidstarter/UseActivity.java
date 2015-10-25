@@ -62,7 +62,7 @@ public class UseActivity extends Activity {
         prev = (FrameLayout) findViewById(R.id.cam_view);
         prev.addView(camView);
 
-    txt = "The app is ready.";
+    txt = "The app is ready. Please click on the screen to start.";
     txtspk = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
       @Override public void onInit(int status) {
         txtspk.setLanguage(Locale.UK);

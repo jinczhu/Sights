@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".RecognitionActivity">
+    tools:context=".UseActivity">
 
     <FrameLayout
         android:id="@+id/cam_view"

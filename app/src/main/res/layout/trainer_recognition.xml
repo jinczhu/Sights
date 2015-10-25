@@ -1,6 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#0A1429"
+    tools:context=".TrainerActivity">
 
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/user_image"/>
+
+    <TextView
+        android:id="@+id/text_view"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_weight="0.4"
+        />
+
+    <EditText
+        android:id="@+id/text_box"
+        android:layout_width="325dp"
+        android:layout_height="50dp"
+        android:hint="Type a tag here or use speech..."
+        android:layout_marginBottom="10dp"
+        />
+
+    <Button
+        android:id="@+id/select_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#4C4C4C"
+        android:text="Take Photo"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:alpha="0.5"
+        />
+
+    <Button
+        android:id="@+id/speech_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#4C4C4C"
+        android:text="Start Speech Recognition"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:alpha="0.5"
+        />
 </LinearLayout>
