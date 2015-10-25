@@ -65,7 +65,7 @@ public class RecognitionActivity extends Activity {
     prev = (FrameLayout) findViewById(R.id.cam_view);
     prev.addView(camView);
 
-    txt = "The app is ready.";
+    txt = "Tap screen anywhere to begin.";
     txtspk = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
       @Override public void onInit(int status) {
         txtspk.setLanguage(Locale.UK);
