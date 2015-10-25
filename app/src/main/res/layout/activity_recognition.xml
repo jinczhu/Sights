@@ -6,30 +6,50 @@
               android:gravity="center"
               tools:context=".RecognitionActivity">
 
-  <FrameLayout
+  <!-- <FrameLayout
       android:id="@+id/cam_view"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_weight="1"
       android:scaleType="centerCrop"
-      android:contentDescription="@string/user_image"/>
+      android:contentDescription="@string/user_image" /> -->
 
   <TextView
-      android:id="@+id/text_view"
-      android:textColor="#fff"
-      android:textSize="16sp"
-      android:gravity="center"
-      android:padding="16dp"
+      android:id="@+id/welcome_view"
       android:layout_width="match_parent"
-      android:layout_height="200dp"
-      android:layout_weight="0.4"
+      android:layout_height="150dp"
+      android:textColor="#fff"
+      android:textSize="50sp"
+      android:textStyle="bold"
+      android:gravity="center"
+      android:text="Sights"
+      android:background="#4C4C4C"
+      android:alpha="0.5"
       />
 
   <Button
-      android:id="@+id/select_button"
+      android:id="@+id/selectu_button"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="@android:color/transparent"
+      android:layout_height="150dp"
+      android:textColor="#fff"
+      android:textSize="35sp"
+      android:text="Use"
+      android:background="#4C4C4C"
+      android:alpha="0.5"
+      android:layout_centerInParent="true"
       />
+
+  <Button
+      android:id="@+id/selectt_button"
+      android:layout_width="match_parent"
+      android:layout_height="150dp"
+      android:textColor="#fff"
+      android:textSize="35sp"
+      android:text="Train"
+      android:background="#4C4C4C"
+      android:alpha="0.5"
+      android:layout_alignParentBottom="true"
+      />
+
 
 </RelativeLayout>
