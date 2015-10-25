@@ -6,3 +6,4 @@ We have a solution for these special souls. With Sights you just need your phone
 The app tells you what the camera of your phone faces though sound output. With a unique algorithm it determines the biggest object or the object that could turn out to be most dangerous of the available objects. For example, if it detects a bike, a car and a bus. It would produce an output in this order - bus -> car -> bike.
 Thus it would alert the visually impaired of impending danger. 
 
+<img src="https://i.imgur.com/56EUw5D.jpg" width="200">
