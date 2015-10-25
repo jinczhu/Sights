@@ -47,7 +47,7 @@ public class RecognitionActivity extends Activity {
   private Camera camera;
   private CSView camView;
   private FrameLayout prev;
-
+  private boolean i;
   private TextToSpeech txtspk;
   private String txt;
 
@@ -65,10 +65,19 @@ public class RecognitionActivity extends Activity {
     prev = (FrameLayout) findViewById(R.id.cam_view);
     prev.addView(camView);
 
+    txt = "The app is ready.";
+    txtspk = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+      @Override public void onInit(int status) {
+        txtspk.setLanguage(Locale.UK);
+        txtspk.speak(txt, TextToSpeech.QUEUE_FLUSH, null);
+      }
+    });
+
     selectButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         camView.capture(mCamera);
+        selectButton.setOnClickListener(null);
       }
     });
   }

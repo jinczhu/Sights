@@ -27,11 +27,9 @@
 
   <Button
       android:id="@+id/select_button"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:background="#3d88ec"
-      android:text="@string/select_image"
-      android:alpha="0.5"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@android:color/transparent"
       />
 
 </RelativeLayout>
