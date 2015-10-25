@@ -23,12 +23,20 @@ public class RecognitionActivity extends Activity {
     selectButtonU = (Button) findViewById(R.id.selectu_button);
     selectButtonT = (Button) findViewById(R.id.selectt_button);
 
+<<<<<<< HEAD
     selectButtonU.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         selectButtonU.setBackgroundColor(Color.BLUE);
         Intent userScreen = new Intent(getApplicationContext(), UseActivity.class);
         startActivity(userScreen);
+=======
+    txt = "Tap screen anywhere to begin.";
+    txtspk = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+      @Override public void onInit(int status) {
+        txtspk.setLanguage(Locale.UK);
+        txtspk.speak(txt, TextToSpeech.QUEUE_FLUSH, null);
+>>>>>>> 7331d3aff8003b79138f826cc7b33d2234ddc914
       }
     });
 

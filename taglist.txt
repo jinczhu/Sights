@@ -1,0 +1,20 @@
+car, automobile, auto, 96
+vehicle, 97
+bus, 99
+train, locomotive, 100
+bicycle, cycle, bike, 92
+motorcycle, motorbike, 93
+person, people, 91
+man, 91
+woman, girl, 90
+child, youth, 88
+dog, canine, 89
+bird, 86
+cat, feline, 87
+
+stairs, stairway, staircase, 94
+
+crosswalk, 98
+railroad, railway, 100
+
+escalator, 95
