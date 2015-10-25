@@ -82,6 +82,10 @@ public class TrainerActivity extends Activity {
                 if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
                     //PERFORM THINGS.
                 }
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_BACK)){
+                    final Intent recScreen = new Intent(getApplicationContext(), RecognitionActivity.class);
+                    startActivity(recScreen);
+                }
                 return false;
             }
         });

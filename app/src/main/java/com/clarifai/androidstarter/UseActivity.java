@@ -1,6 +1,7 @@
 package com.clarifai.androidstarter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -49,6 +51,7 @@ public class UseActivity extends Activity {
     private TextToSpeech txtspk;
     private String txt;
     private Uri imguri;
+    private KeyListener bKey;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,21 +65,21 @@ public class UseActivity extends Activity {
         prev = (FrameLayout) findViewById(R.id.cam_view);
         prev.addView(camView);
 
-    txt = "The app is ready. Please click on the screen to start.";
-    txtspk = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-      @Override public void onInit(int status) {
-        txtspk.setLanguage(Locale.UK);
-        txtspk.speak(txt, TextToSpeech.QUEUE_FLUSH, null);
-      }
-    });
+        txt = "The app is ready. Please click on the screen to start.";
+        txtspk = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override public void onInit(int status) {
+                txtspk.setLanguage(Locale.UK);
+                txtspk.speak(txt, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
 
-    captureButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        camView.capture(mCamera);
-        captureButton.setOnClickListener(null);
-      }
-    });
+        captureButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            camView.capture(mCamera);
+            captureButton.setOnClickListener(null);
+        }
+        });
     }
 
     private int findBackFacingCamera() {
