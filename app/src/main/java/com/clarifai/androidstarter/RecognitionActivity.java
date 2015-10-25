@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -140,8 +142,37 @@ public class RecognitionActivity extends Activity {
       } else {
         textView.setText("Unable to load selected image.");
       }
+      //check number of files in directory and delete oldest file if number of files is > 9
+      File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+              Environment.DIRECTORY_PICTURES), "Sights");
 
+      File[] files = mediaStorageDir.listFiles();
+
+      Arrays.sort(files, new Comparator<File>() {
+        public int compare(File f1, File f2) {
+          return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+        }
+      });
+
+      if( files.length > 5){
+        try{
+
+          if(files[0].delete()){
+            System.out.println(files[0].getName() + " is deleted!");
+          }else{
+            System.out.println("Delete operation is failed.");
+          }
+
+        }catch(Exception e){
+
+          e.printStackTrace();
+
+        }
+      }
+
+      //end of directory work --Jason
     }
+
   };
 
   private static File getOutputMediaFile(int type){
