@@ -53,6 +53,28 @@ public class UseActivity extends Activity {
     private Uri imguri;
     private KeyListener bKey;
 
+//    public static HashMap<String,Integer> map = new HashMap<String, Integer>();
+//    static{
+//        map.put("car", 96);map.put("automobile", 96);map.put("auto", 96);
+//        map.put("vehicle", 97);
+//        map.put("bus", 99);
+//        map.put("train", 100);map.put("locomotive", 100);
+//        map.put("bike", 92);map.put("bicycle", 92);map.put("cycle", 92);
+//        map.put("motorbike", 93);map.put("motorcycle", 93);
+//        map.put("people", 91);map.put("person", 91);
+//        map.put("man", 91);
+//        map.put("woman", 91);
+//        map.put("child", 89);map.put("youth", 89);
+//        map.put("dog", 90);map.put("canine", 90);
+//        map.put("bird", 87);
+//        map.put("cat", 88);map.put("feline", 88);
+//        map.put("stairs", 94);map.put("stairway", 94);map.put("staircase", 94);
+//        map.put("crosswalk", 98);
+//        map.put("railroad", 100);map.put("railway", 100);
+//        map.put("escalator", 95);
+//    }
+
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_recognition);
@@ -261,6 +283,39 @@ public class UseActivity extends Activity {
     /** Updates the UI by displaying tags for the given result. */
     private void updateUIForResult(RecognitionResult result) {
         if (result != null) {
+//            if (result.getStatusCode() == RecognitionResult.StatusCode.OK) {
+//                // Display the list of tags in the UI.
+//                StringBuilder sb = new StringBuilder();
+//                ArrayList<String> str = new ArrayList<String>();
+//                int i = 0;
+//                for (Tag tag : result.getTags()) {
+//                    str.add(tag.getName());
+//                }
+//                ArrayList<Integer> temp = new ArrayList<Integer>();
+//                for (i=0;i<str.size();i++){
+//                    if(map.containsKey(str.get(i))){
+//                        temp.add(map.get(str.get(i)));
+//                    }
+//                }
+//                Collections.sort(temp);
+//                Collections.reverse(temp);
+//                for(i=0;i<temp.size();i++){
+//                    for (Map.Entry<String, Integer> e : map.entrySet()) {
+//                        if(temp.get(i) == e.getValue()){
+//                            sb.append(sb.length() > 0 ? ", " : "").append(e.getKey());
+//                        }
+//                    }
+//                }
+//                textView.setText("Tags:\n" + sb);
+//                txt = sb.toString();
+//                txtspk = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+//                    @Override public void onInit(int status) {
+//                        txtspk.setLanguage(Locale.UK);
+//                        txtspk.speak(txt, TextToSpeech.QUEUE_FLUSH, null);
+//                    }
+//                });
+//
+//            }
             if (result.getStatusCode() == RecognitionResult.StatusCode.OK) {
                 // Display the list of tags in the UI.
                 StringBuilder b = new StringBuilder();
