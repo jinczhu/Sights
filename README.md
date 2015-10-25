@@ -11,3 +11,6 @@ With the use of <b>Clarfai's</b> API we have made our app accurate and efficient
 2. Trainer mode - Helps volunteers train the model. Usage - Click a picture, speak the name of the most conspicuous object in the picture, that's it! We are developing a functionality which trains the model according to the trainer's input.
 
 <img src="https://i.imgur.com/56EUw5D.jpg" width="200">
+
+
+P.S. - The customtrainer.py file is used to train custom_concepts for trainers. Its usage is very similar to the usage of example.py file in the python directory at https://github.com/Clarifai/hackathon.
